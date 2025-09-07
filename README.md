@@ -17,30 +17,38 @@ A simple and easy-to-use weather application that displays the current weather b
 1. Clone the repository:
    ```bash
    git clone https://github.com/ahmadhomsy/weather_app_flutter_clean_code_architecture.git
-Install dependencies:
+   ```
 
-bash
-نسخ الكود
-flutter pub get
-Run the app:
+2. Install dependencies:
+   ```bash
+   flutter pub get
+   ```
 
-bash
-نسخ الكود
-flutter run
-📸 Screenshots
+3. Run the app:
+   ```bash
+   flutter run
+   ```
+
+---
+
+## 📸 Screenshots
 <!-- Replace with your screenshots -->
+![Screenshot 1](assets/images/logo.png)  
+![Screenshot 2]([link-to-screenshot2.png](https://github.com/user-attachments/assets/369910c4-69f1-402a-9d64-14638a05ac7e))
 
+---
 
+## 📦 Download
+You can download the latest release from [here](https://github.com/ahmadhomsy/weather_app_flutter_clean_code_architecture/releases).
 
-📦 Download
-You can download the latest release from here.
+---
 
-🏷️ Tags & Topics
-flutter dart bloc firebase weather-app mobile-app clean-architecture
+## 🏷️ Tags & Topics
+`flutter` `dart` `bloc` `firebase` `weather-app` `mobile-app` `clean-architecture`
 
-📚 Resources
-For help getting started with Flutter development, view the
-official documentation, which offers tutorials,
+---
+
+## 📚 Resources
+For help getting started with Flutter development, view the  
+[official documentation](https://docs.flutter.dev/), which offers tutorials,  
 samples, guidance on mobile development, and a full API reference.
-
-نسخ الكود
