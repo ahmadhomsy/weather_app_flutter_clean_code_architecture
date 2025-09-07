@@ -1,16 +1,46 @@
-# weather_app_clean_code_architecture
+# 🌤️ Weather App - Clean Code Architecture
 
-A new Flutter project.
+A simple and easy-to-use weather application that displays the current weather based on your location, built with **Flutter** using **Clean Code Architecture**.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## ✨ Features
+- Display current weather (temperature, humidity, weather condition).
+- Support for different locations via GPS.
+- Simple and smooth UI built with Flutter.
+- State management using BLoC.
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🚀 Getting Started
 
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/ahmadhomsy/weather_app_flutter_clean_code_architecture.git
+Install dependencies:
+
+bash
+نسخ الكود
+flutter pub get
+Run the app:
+
+bash
+نسخ الكود
+flutter run
+📸 Screenshots
+<!-- Replace with your screenshots -->
+
+
+
+📦 Download
+You can download the latest release from here.
+
+🏷️ Tags & Topics
+flutter dart bloc firebase weather-app mobile-app clean-architecture
+
+📚 Resources
 For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
+official documentation, which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+نسخ الكود
