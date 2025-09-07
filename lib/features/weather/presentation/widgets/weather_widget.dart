@@ -10,10 +10,10 @@ class WeatherWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.5,
-        width: MediaQuery.of(context).size.width * 0.65,
+        height: 0.5.sh,
+        width: 0.65.sw,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           color: Colors.black.withOpacity(0.5),
         ),
         child: Column(
@@ -22,15 +22,17 @@ class WeatherWidget extends StatelessWidget {
             Text(
               weather.state,
               style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 36.sp,
-                  fontWeight: FontWeight.bold),
+                color: Colors.white,
+                fontSize: 36.sp,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
             ),
-            SizedBox(
-              height: MediaQuery.of(context).size.height * 0.025,
-            ),
+            SizedBox(height: 20.h),
             displayWeather('${weather.temp} ℃'),
-            displayWeather(weather.speed.toString()),
+            SizedBox(height: 12.h),
+            displayWeather('${weather.speed} m/s'),
+            SizedBox(height: 12.h),
             displayWeather(weather.city),
           ],
         ),
@@ -43,8 +45,9 @@ class WeatherWidget extends StatelessWidget {
       text,
       style: TextStyle(
         color: Colors.white,
-        fontSize: 36.sp,
+        fontSize: 28.sp,
       ),
+      textAlign: TextAlign.center,
     );
   }
 }

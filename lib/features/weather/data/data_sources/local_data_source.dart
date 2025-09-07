@@ -28,6 +28,6 @@ class LocalImplWithSharedPreferences extends LocalDataSource {
   Future<Unit> cashedWeather(WeatherModel weatherModel) async {
     String weatherJson = jsonEncode(weatherModel.toJson());
     await sharedPreferences.setString("CACHED_WEATHER", weatherJson);
-    return Future.value(unit);
+    return unit;
   }
 }

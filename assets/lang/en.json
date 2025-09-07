@@ -1,10 +1,10 @@
 {
   "1": "Weather State",
   "2": "Please try again later",
-  "3": "No Data",
+  "3": "No data available, please connect to the Internet",
   "4": "Please Check your Internet Connection",
   "5": "Please give permission to access the site",
   "6": "Open Setting" ,
-  "7": "Your daily forecast 🌦️",
-  "8": "Weather App"
+  "9": "Un Expected Error",
+  "10": "Location service is closed"
 }

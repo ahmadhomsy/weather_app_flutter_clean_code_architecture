@@ -1,36 +1,33 @@
 part of 'weather_bloc.dart';
 
-@immutable
-sealed class WeatherState extends Equatable {
-  @override
-  List<Object?> get props => [];
+enum WeatherStatus {
+  initial,
+  loading,
+  success,
+  failureLocation,
+  failureError,
+  failureServiceLocation
 }
 
-final class WeatherInitial extends WeatherState {}
+class WeatherState {
+  final WeatherStatus status;
+  final Weather? weather;
+  final String? errorMessage;
+  WeatherState({
+    this.status = WeatherStatus.initial,
+    this.weather,
+    this.errorMessage,
+  });
 
-class LoadingState extends WeatherState {}
-
-class LoadedState extends WeatherState {
-  final Weather weather;
-
-  LoadedState({required this.weather});
-
-  @override
-  List<Object?> get props => [weather];
-}
-
-class ErrorState extends WeatherState {
-  final String message;
-
-  ErrorState({required this.message});
-  @override
-  List<Object?> get props => [message];
-}
-
-class PermissionErrorState extends WeatherState {
-  final String message;
-
-  PermissionErrorState({required this.message});
-  @override
-  List<Object?> get props => [message];
+  WeatherState copyWith({
+    Weather? weather,
+    WeatherStatus? status,
+    String? errorMessage,
+  }) {
+    return WeatherState(
+      weather: weather ?? this.weather,
+      status: status ?? this.status,
+      errorMessage: errorMessage ?? this.errorMessage,
+    );
+  }
 }

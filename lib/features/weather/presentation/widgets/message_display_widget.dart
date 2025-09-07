@@ -10,19 +10,21 @@ class MessageDisplayWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.5,
-        width: MediaQuery.of(context).size.width * 0.65,
+        height: 0.5.sh,
+        width: 0.65.sw,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           color: Colors.black.withOpacity(0.5),
         ),
         child: Center(
           child: Text(
             message.tr(),
+            textAlign: TextAlign.center,
             style: TextStyle(
-                color: Colors.white,
-                fontSize: 36.sp,
-                fontWeight: FontWeight.bold),
+              color: Colors.white,
+              fontSize: 32.sp,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),

@@ -7,5 +7,3 @@ sealed class WeatherEvent extends Equatable {
 }
 
 class GetWeatherEvent extends WeatherEvent {}
-
-class RefreshWeatherEvent extends WeatherEvent {}

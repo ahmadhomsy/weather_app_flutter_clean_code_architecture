@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:weather_app_clean_code_architecture/core/widgets/loading_widget.dart';
+import 'package:geolocator/geolocator.dart';
+import '../../../../core/widgets/loading_widget.dart';
 import '../../../../injection_container.dart';
 import '../bloc/weather_bloc.dart';
 import '../widgets/message_display_widget.dart';
@@ -13,13 +14,10 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => sl<WeatherBloc>()..add(GetWeatherEvent()),
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        appBar: _buildAppbar(),
-        body: _buildBody(context),
-      ),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      appBar: _buildAppbar(),
+      body: _buildBody(context),
     );
   }
 
@@ -36,31 +34,52 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Future<void> _onRefresh(BuildContext context) async {
-    BlocProvider.of<WeatherBloc>(context).add(RefreshWeatherEvent());
-  }
-
   Widget _buildBody(BuildContext context) {
     return Container(
       decoration: const BoxDecoration(
         image: DecorationImage(
-            image: AssetImage('assets/images/background.jpg'),
-            fit: BoxFit.cover,
-            opacity: 0.9),
+          image: AssetImage('assets/images/background.jpg'),
+          fit: BoxFit.cover,
+          opacity: 0.9,
+        ),
       ),
-      child: BlocBuilder<WeatherBloc, WeatherState>(
-        builder: (context, state) {
-          if (state is LoadingState) {
-            return const LoadingWidget();
-          } else if (state is LoadedState) {
-            return WeatherWidget(weather: state.weather);
-          } else if (state is PermissionErrorState) {
-            return PermissionMessageWidget(message: state.message);
-          } else if (state is ErrorState) {
-            return MessageDisplayWidget(message: state.message);
-          }
-          return Center(child: Text("data"));
+      child: RefreshIndicator(
+        onRefresh: () async {
+          context.read<WeatherBloc>().add(GetWeatherEvent());
         },
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height,
+            child: BlocBuilder<WeatherBloc, WeatherState>(
+              builder: (context, state) {
+                if (state.status == WeatherStatus.loading) {
+                  return const LoadingWidget();
+                } else if (state.status == WeatherStatus.success) {
+                  return WeatherWidget(weather: state.weather!);
+                } else if (state.status == WeatherStatus.failureLocation) {
+                  return PermissionMessageWidget(
+                    message: state.errorMessage!,
+                    onPressed: () async {
+                      await Geolocator.openAppSettings();
+                    },
+                  );
+                } else if (state.status ==
+                    WeatherStatus.failureServiceLocation) {
+                  return PermissionMessageWidget(
+                    message: state.errorMessage!,
+                    onPressed: () async {
+                      await Geolocator.openLocationSettings();
+                    },
+                  );
+                } else if (state.status == WeatherStatus.failureError) {
+                  return MessageDisplayWidget(message: state.errorMessage!);
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+          ),
+        ),
       ),
     );
   }

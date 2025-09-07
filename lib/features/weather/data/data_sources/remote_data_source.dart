@@ -1,8 +1,10 @@
 import 'dart:convert';
-import 'package:location/location.dart';
-import 'package:weather_app_clean_code_architecture/core/error/exceptions.dart';
-import 'package:weather_app_clean_code_architecture/features/weather/data/models/weather_model.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:location/location.dart' as loc;
 import 'package:http/http.dart' as http;
+
+import '../../../../core/error/exceptions.dart';
+import '../models/weather_model.dart';
 
 abstract class RemoteDataSource {
   Future<WeatherModel> getWeatherState();
@@ -14,36 +16,46 @@ const String apiKey = 'b6bc351135ed84d5919c71543ce35790';
 
 class RemoteImplWithHttp extends RemoteDataSource {
   final http.Client client;
-  final Location location;
+  final loc.Location location;
 
-  double? longitude;
-  double? latitude;
   RemoteImplWithHttp({required this.client, required this.location});
 
   @override
   Future<WeatherModel> getWeatherState() async {
-    while (!await location.serviceEnabled()) {
-      await location.requestService();
-    }
-    PermissionStatus _permissionGranted = await location.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await location.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
         throw LocationDisabledException();
       }
     }
+    if (permission == LocationPermission.deniedForever) {
+      throw LocationDisabledException();
+    }
+    while (!await location.serviceEnabled()) {
+      await location.requestService();
+    }
+    Position position;
 
-    LocationData locationData = await location.getLocation();
+    try {
+      position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high,
+      );
+    } catch (e) {
+      throw LocationServiceIsClosed();
+    }
 
-    longitude = locationData.longitude;
-    latitude = locationData.latitude;
+    double latitude = position.latitude;
+    double longitude = position.longitude;
 
-    var response = await http.get(
+    final response = await client.get(
       Uri.parse(
-          '$baseURL${service}lat=$latitude&lon=$longitude&appid=$apiKey&units=metric'),
+        '$baseURL${service}lat=$latitude&lon=$longitude&appid=$apiKey&units=metric',
+      ),
     );
+
     if (response.statusCode == 200) {
-      Map<String, dynamic> data = jsonDecode(response.body);
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
       return WeatherModel.fromJson(data);
     } else {
       throw ServerException();

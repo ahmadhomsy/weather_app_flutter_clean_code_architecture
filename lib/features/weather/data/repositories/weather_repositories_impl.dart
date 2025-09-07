@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:weather_app_clean_code_architecture/core/error/exceptions.dart';
 import 'package:weather_app_clean_code_architecture/core/error/failures.dart';
-import 'package:weather_app_clean_code_architecture/core/network/network_info.dart';
+import 'package:weather_app_clean_code_architecture/core/helpers/network_info.dart';
 import 'package:weather_app_clean_code_architecture/features/weather/domain/entities/weather.dart';
 import 'package:weather_app_clean_code_architecture/features/weather/domain/repositories/weather_repositories.dart';
 import '../data_sources/local_data_source.dart';
@@ -22,19 +22,21 @@ class WeatherRepositoriesImpl implements WeatherRepositories {
     if (await networkInfo.isConnected) {
       try {
         final remoteWeather = await remoteDataSource.getWeatherState();
-        localDataSource.cashedWeather(remoteWeather);
+        await localDataSource.cashedWeather(remoteWeather);
         return Right(remoteWeather);
       } on ServerException {
         return Left(ServerFailure());
       } on LocationDisabledException {
         return Left(LocationDisabledFailure());
+      } on LocationServiceIsClosed {
+        return Left(LocationServiceIsClosedFailure());
       }
     } else {
       try {
         final localWeather = await localDataSource.getCashedWeather();
         return Right(localWeather);
       } on EmptyCashException {
-        return left(EmptyCashFailure());
+        return Left(EmptyCashFailure());
       }
     }
   }

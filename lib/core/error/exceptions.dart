@@ -5,3 +5,5 @@ class OfflineException implements Exception {}
 class EmptyCashException implements Exception {}
 
 class LocationDisabledException implements Exception {}
+
+class LocationServiceIsClosed implements Exception {}
