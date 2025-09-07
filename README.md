@@ -34,7 +34,7 @@ A simple and easy-to-use weather application that displays the current weather b
 ## 📸 Screenshots
 <!-- Replace with your screenshots -->
 ![Screenshot 1](assets/images/logo.png)  
-![Screenshot 2](https://imgur.com/a/LnuZ0Dl)
+![Screenshot 2](https://imgur.com/O3UBhZS)
 
 ---
 
